@@ -1,21 +1,24 @@
 pipeline {
-    agent any  // This will run the pipeline on any available agent
+    agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 script {
-                    // Install dependencies
                     sh 'pip install -r requirements.txt'
                 }
             }
         }
-
         stage('Test') {
             steps {
                 script {
-                    // Run unit tests using pytest
-                    sh 'pytest'
+                    // Run pytest and generate JUnit report
+                    sh 'pytest --junitxml=results.xml'
                 }
             }
         }
@@ -23,8 +26,7 @@ pipeline {
 
     post {
         always {
-            // Cleanup actions, e.g., archive test results
-            junit '**/test-results.xml'  // Optional: Archive test results if using JUnit XML format
+            junit 'results.xml'  // This will point to the generated report file
         }
     }
 }
