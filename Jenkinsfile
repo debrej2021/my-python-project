@@ -22,6 +22,24 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            when {
+                // Only deploy if the previous stages were successful
+                allOf {
+                    expression { currentBuild.result == null }
+                }
+            }
+            steps {
+                script {
+                    // Example deployment command
+                    sh '''
+                    echo "Deploying application to staging environment..."
+                    # Add your deployment commands here
+                    # e.g., scp to a server, docker run, etc.
+                    '''
+                }
+            }
+        }
     }
 
     post {
