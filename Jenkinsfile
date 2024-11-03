@@ -31,11 +31,15 @@ pipeline {
             }
             steps {
                 script {
-                    // Example deployment command
+                    // Build the Docker image
+                    sh '''
+                    echo "Building Docker image..."
+                    docker build -t my-flask-app .
+                    '''
+                    // Run the Docker container
                     sh '''
                     echo "Deploying application to staging environment..."
-                    # Add your deployment commands here
-                    # e.g., scp to a server, docker run, etc.
+                    docker run -d -p 5000:5000 my-flask-app
                     '''
                 }
             }
