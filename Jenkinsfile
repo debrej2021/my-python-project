@@ -31,6 +31,9 @@ pipeline {
             }
             steps {
                 script {
+                    // Debugging: Check if Docker is available
+                    sh 'docker --version'
+                    sh 'docker info'
                     // Build the Docker image
                     sh '''
                     echo "Building Docker image..."
